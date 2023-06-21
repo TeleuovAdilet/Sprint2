@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th= "http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main_layout.html"
+>
+<div layout:fragment="siteContent">
+    <div class="text-center">
+        <h3 th:if="${detailsrequest.isHandled()}" style="color: green">Handle Request</h3>
+        <h3 th:if="${!detailsrequest.isHandled()}" style="color: red">New  Request</h3>
+    </div>
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <form th:action="@{'AddApplications'}" method="post" th:if="${detailsrequest != null}">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>FULL NAME :</label>
+                    </div>
+                </div>
+                <div class="row mt">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="name" placeholder="FullName : "
+                        th:value="${detailsrequest.getName()}"
+                               readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>COURSE :</label>
+                    </div>
+                </div>
+                <div class="row mt">
+                    <div class="col-12">
+                        <select class="form-select" name="courseName" placeholder="Select Course"
+                        th:value="${detailsrequest.getCourseName()}"
+                                readonly>
+                            <option>Java BackEnd Course</option>
+                            <option>Java FullStack Course</option>
+                            <option>FrontEnd Course</option>
+                            <option>PHP BackEnd Course</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>PHONE :</label>
+                    </div>
+                </div>
+                <div class="row mt">
+                    <div class="col-12">
+                        <input type="number" class="form-control" name="phone" placeholder="+7(7__)______"
+                        th:value="${detailsrequest.getPhone()}"
+                               readonly>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <label>COMMENTARY :</label>
+                    </div>
+                </div>
+                <div class="row mt">
+                    <div class="col-12">
+                        <textarea  class="form-control" name="commentary" rows="5" placeholder="Commentary"
+                        th:text="${detailsrequest.getCommentary()}"
+                                   readonly></textarea>
+                    </div>
+                </div>
+            </form>
+            <h4 th:if="${detailsrequest == null}" class="text-center">
+                Not Found
+            </h4>
+<!--            <div class="row mt-3">-->
+<!--                <div class="col-12">-->
+<!--                    <button type="submit" class="btn btn-success" >PROCESS REQUEST</button>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-danger btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#deleteTask">
+                        DELETE REQUEST</button>
+                </div>
+            </div>
+            <div class="modal fade" id="deleteTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/DeleteApplications}" method="post">
+                            <input type="hidden" name="id" th:value="${detailsrequest.getID()}">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Confirm Delete</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 class="text-center">Are you sure?</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                                <button  class="btn btn-danger">YES</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <form th:action="@{/SaveDetails}" method="post">
+                        <input type="hidden" name="id" th:value="${detailsrequest.ID}">
+                        <button type="submit" class="btn btn-success" th:if="${!detailsrequest.isHandled()}" >Handle Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
